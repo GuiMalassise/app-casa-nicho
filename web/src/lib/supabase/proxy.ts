@@ -1,8 +1,6 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
-// ponytail: só renova a sessão, sem redirecionar pra /login — ainda não
-// existem páginas de auth. Adicionar o guard de rota quando o login existir.
 export async function updateSession(request: NextRequest) {
   let supabaseResponse = NextResponse.next({ request })
 
@@ -30,7 +28,13 @@ export async function updateSession(request: NextRequest) {
 
   // Não remover: getClaims() valida o JWT e renova o token. Sem essa
   // chamada os usuários podem ser deslogados aleatoriamente.
-  await supabase.auth.getClaims()
+  const { data } = await supabase.auth.getClaims()
+
+  if (!data?.claims && !request.nextUrl.pathname.startsWith('/login')) {
+    const url = request.nextUrl.clone()
+    url.pathname = '/login'
+    return NextResponse.redirect(url)
+  }
 
   return supabaseResponse
 }
