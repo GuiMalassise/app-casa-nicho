@@ -1,26 +1,45 @@
 @import "tailwindcss";
 
+/*
+  Paleta "villa siciliana": creme quente + bordô + terracota, com azul
+  empoeirado como contraponto frio pra distinguir canais/estados informativos
+  sem recorrer a azul genérico de SaaS. Verde-oliva é o único tom fora da
+  paleta original do Gui — necessário pra sinalizar "estoque ok" com clareza
+  (bordô já está ocupado como cor de perigo/ação primária), e combina com o
+  tema (oliveira mediterrânea) em vez de ser um verde de dashboard qualquer.
+*/
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --color-bone: #e3dfce;
+  --color-ink: #1a0905;
+  --color-bordeaux: #4c050c;
+  --color-terracotta: #9d3f0d;
+  --color-powder: #94b1c8;
+  --color-olive: #6e7b4a;
+
+  --background: var(--color-bone);
+  --foreground: var(--color-ink);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-bone: var(--color-bone);
+  --color-ink: var(--color-ink);
+  --color-bordeaux: var(--color-bordeaux);
+  --color-terracotta: var(--color-terracotta);
+  --color-powder: var(--color-powder);
+  --color-olive: var(--color-olive);
+  --font-display: var(--font-fraunces);
+  --font-sans: var(--font-inter);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+}
+
+/* Colunas numéricas (ml, R$, %) sempre alinhadas — alegações do §14/§53 */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
 }
