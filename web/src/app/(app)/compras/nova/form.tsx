@@ -8,28 +8,39 @@ const inputClass =
   "w-full rounded border border-ink/20 bg-bone px-3 py-2 text-sm outline-none focus:border-bordeaux";
 const selectClass = inputClass;
 
-type Modo = "fracionado" | "inteiro";
+type Modo = "fracionado" | "inteiro" | "insumo";
 type LinhaItem = {
   modo: Modo;
   perfumeId: string;
   volumeMl: string;
   variacaoId: string;
+  insumoId: string;
   quantidade: string;
   valorPago: string;
 };
 
 function linhaVazia(): LinhaItem {
-  return { modo: "fracionado", perfumeId: "", volumeMl: "", variacaoId: "", quantidade: "", valorPago: "" };
+  return {
+    modo: "fracionado",
+    perfumeId: "",
+    volumeMl: "",
+    variacaoId: "",
+    insumoId: "",
+    quantidade: "",
+    valorPago: "",
+  };
 }
 
 export function NovaCompraForm({
   perfumes,
   variacoesInteiras,
   fornecedores,
+  insumos,
 }: {
   perfumes: { id: string; nome: string }[];
   variacoesInteiras: { id: string; label: string }[];
   fornecedores: string[];
+  insumos: { id: string; label: string }[];
 }) {
   const [state, formAction, pending] = useActionState(registrarCompra, null);
   const [itens, setItens] = useState<LinhaItem[]>([linhaVazia()]);
@@ -45,6 +56,10 @@ export function NovaCompraForm({
       if (linha.modo === "fracionado") {
         if (!linha.perfumeId || !linha.volumeMl) return null;
         return { perfumeId: linha.perfumeId, volumeMl: Number(linha.volumeMl), valorPago };
+      }
+      if (linha.modo === "insumo") {
+        if (!linha.insumoId || !linha.quantidade) return null;
+        return { insumoId: linha.insumoId, quantidade: Number(linha.quantidade), valorPago };
       }
       if (!linha.variacaoId || !linha.quantidade) return null;
       return { variacaoId: linha.variacaoId, quantidade: Number(linha.quantidade), valorPago };
@@ -91,6 +106,7 @@ export function NovaCompraForm({
               >
                 <option value="fracionado">Fracionado (perfume a granel)</option>
                 <option value="inteiro">Inteiro (frasco fechado)</option>
+                <option value="insumo">Insumo (produção/expedição)</option>
               </select>
               {itens.length > 1 && (
                 <button
@@ -136,7 +152,7 @@ export function NovaCompraForm({
                   className={`${inputClass} w-36`}
                 />
               </div>
-            ) : (
+            ) : linha.modo === "inteiro" ? (
               <div className="flex flex-wrap gap-2">
                 <select
                   value={linha.variacaoId}
@@ -147,6 +163,39 @@ export function NovaCompraForm({
                   {variacoesInteiras.map((v) => (
                     <option key={v.id} value={v.id}>
                       {v.label}
+                    </option>
+                  ))}
+                </select>
+                <input
+                  type="number"
+                  placeholder="Quantidade"
+                  min={0}
+                  step="1"
+                  value={linha.quantidade}
+                  onChange={(e) => atualizar(i, "quantidade", e.target.value)}
+                  className={`${inputClass} w-28`}
+                />
+                <input
+                  type="number"
+                  placeholder="Valor pago (R$)"
+                  min={0}
+                  step="0.01"
+                  value={linha.valorPago}
+                  onChange={(e) => atualizar(i, "valorPago", e.target.value)}
+                  className={`${inputClass} w-36`}
+                />
+              </div>
+            ) : (
+              <div className="flex flex-wrap gap-2">
+                <select
+                  value={linha.insumoId}
+                  onChange={(e) => atualizar(i, "insumoId", e.target.value)}
+                  className={`${selectClass} w-56`}
+                >
+                  <option value="">Insumo...</option>
+                  {insumos.map((ins) => (
+                    <option key={ins.id} value={ins.id}>
+                      {ins.label}
                     </option>
                   ))}
                 </select>

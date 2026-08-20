@@ -12,7 +12,8 @@ export default async function ComprasPage() {
          id, valor_pago, frete_rateado, custo_total, custo_por_ml, custo_unitario,
          volume_ml, quantidade,
          perfumes (nome),
-         variacoes (sku)
+         variacoes (sku),
+         insumos (nome)
        )`
     )
     .order("data", { ascending: false });
@@ -53,7 +54,9 @@ export default async function ComprasPage() {
                         <td className="py-1">
                           {item.perfumes
                             ? `${item.perfumes.nome} (${item.volume_ml}ml)`
-                            : `${item.variacoes?.sku ?? "?"} (${item.quantidade}un)`}
+                            : item.insumos
+                              ? `${item.insumos.nome} (${item.quantidade}un)`
+                              : `${item.variacoes?.sku ?? "?"} (${item.quantidade}un)`}
                         </td>
                         <td className="py-1 tabular-nums">R$ {item.valor_pago}</td>
                         <td className="py-1 tabular-nums">R$ {item.frete_rateado}</td>

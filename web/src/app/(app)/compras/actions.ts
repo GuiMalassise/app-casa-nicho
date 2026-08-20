@@ -6,7 +6,8 @@ import { createClient } from "@/lib/supabase/server";
 
 type ItemCompra =
   | { perfumeId: string; volumeMl: number; valorPago: number }
-  | { variacaoId: string; quantidade: number; valorPago: number };
+  | { variacaoId: string; quantidade: number; valorPago: number }
+  | { insumoId: string; quantidade: number; valorPago: number };
 
 export async function registrarCompra(_prevState: { erro: string } | null, formData: FormData) {
   const supabase = await createClient();
@@ -60,11 +61,15 @@ export async function registrarCompra(_prevState: { erro: string } | null, formD
     fornecedorId = novoFornecedor.id;
   }
 
-  const itensRpc = itens.map((item) =>
-    "perfumeId" in item
-      ? { perfume_id: item.perfumeId, volume_ml: item.volumeMl, valor_pago: item.valorPago }
-      : { variacao_id: item.variacaoId, quantidade: item.quantidade, valor_pago: item.valorPago }
-  );
+  const itensRpc = itens.map((item) => {
+    if ("perfumeId" in item) {
+      return { perfume_id: item.perfumeId, volume_ml: item.volumeMl, valor_pago: item.valorPago };
+    }
+    if ("insumoId" in item) {
+      return { insumo_id: item.insumoId, quantidade: item.quantidade, valor_pago: item.valorPago };
+    }
+    return { variacao_id: item.variacaoId, quantidade: item.quantidade, valor_pago: item.valorPago };
+  });
 
   const { error } = await supabase.rpc("fn_registrar_compra", {
     p_empresa_id: usuario.empresa_id,

@@ -205,6 +205,7 @@ export type Database = {
           custo_unitario: number | null
           frete_rateado: number
           id: string
+          insumo_id: string | null
           perfume_id: string | null
           quantidade: number | null
           valor_pago: number
@@ -218,6 +219,7 @@ export type Database = {
           custo_unitario?: number | null
           frete_rateado?: number
           id?: string
+          insumo_id?: string | null
           perfume_id?: string | null
           quantidade?: number | null
           valor_pago: number
@@ -231,6 +233,7 @@ export type Database = {
           custo_unitario?: number | null
           frete_rateado?: number
           id?: string
+          insumo_id?: string | null
           perfume_id?: string | null
           quantidade?: number | null
           valor_pago?: number
@@ -244,6 +247,20 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "compras"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "compra_itens_insumo_id_fkey"
+            columns: ["insumo_id"]
+            isOneToOne: false
+            referencedRelation: "insumos"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "compra_itens_insumo_id_fkey"
+            columns: ["insumo_id"]
+            isOneToOne: false
+            referencedRelation: "vw_estoque_insumo"
+            referencedColumns: ["insumo_id"]
           },
           {
             foreignKeyName: "compra_itens_perfume_id_fkey"
@@ -1499,6 +1516,17 @@ export type Database = {
       }
     }
     Functions: {
+      fn_avancar_status_pedido: {
+        Args: {
+          p_novo_status: Database["public"]["Enums"]["pedido_status"]
+          p_pedido_id: string
+        }
+        Returns: undefined
+      }
+      fn_cancelar_item_pedido: {
+        Args: { p_pedido_item_id: string }
+        Returns: undefined
+      }
       fn_consumir_lotes_fifo: {
         Args: { p_perfume_id: string; p_volume_ml: number }
         Returns: {
@@ -1507,6 +1535,10 @@ export type Database = {
           quantidade_ml: number
         }[]
       }
+      fn_devolver_item_pedido: {
+        Args: { p_pedido_item_id: string }
+        Returns: undefined
+      }
       fn_registrar_compra: {
         Args: {
           p_data: string
@@ -1514,6 +1546,17 @@ export type Database = {
           p_fornecedor_id: string
           p_frete_total: number
           p_itens: Json
+        }
+        Returns: string
+      }
+      fn_registrar_pedido: {
+        Args: {
+          p_canal_id: string
+          p_cliente_nome: string
+          p_empresa_id: string
+          p_id_externo: string
+          p_itens: Json
+          p_valor_frete: number
         }
         Returns: string
       }

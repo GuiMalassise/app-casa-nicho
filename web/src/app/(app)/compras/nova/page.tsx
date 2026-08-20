@@ -4,7 +4,7 @@ import { NovaCompraForm } from "./form";
 export default async function NovaCompraPage() {
   const supabase = await createClient();
 
-  const [{ data: perfumes }, { data: variacoesInteiras }, { data: fornecedores }] =
+  const [{ data: perfumes }, { data: variacoesInteiras }, { data: fornecedores }, { data: insumos }] =
     await Promise.all([
       supabase.from("perfumes").select("id, nome").order("nome"),
       supabase
@@ -12,6 +12,7 @@ export default async function NovaCompraPage() {
         .select("id, perfume_id, volume_ml, sku, perfumes(nome)")
         .eq("modo_venda", "inteiro"),
       supabase.from("fornecedores").select("nome").order("nome"),
+      supabase.from("insumos").select("id, nome, tipo").order("nome"),
     ]);
 
   return (
@@ -24,6 +25,10 @@ export default async function NovaCompraPage() {
           label: `${v.perfumes?.nome ?? "?"} — ${v.volume_ml}ml (${v.sku})`,
         }))}
         fornecedores={(fornecedores ?? []).map((f) => f.nome)}
+        insumos={(insumos ?? []).map((i) => ({
+          id: i.id,
+          label: `${i.nome} (${i.tipo === "producao" ? "produção" : "expedição"})`,
+        }))}
       />
     </div>
   );
