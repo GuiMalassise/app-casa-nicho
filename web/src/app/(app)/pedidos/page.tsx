@@ -11,7 +11,8 @@ export default async function PedidosPage() {
     .select(
       `id, id_externo, cliente_nome, status, valor_produtos, valor_frete, taxa_valor_aplicada,
        canais (nome),
-       pedido_itens (id, quantidade, preco_unitario, status, variacoes (sku))`
+       pedido_itens (id, quantidade, preco_unitario, status, variacoes (sku)),
+       pedido_expedicao (tipo_caixa, embalado_em, enviado_em)`
     )
     .order("criado_em", { ascending: false });
 
@@ -47,6 +48,7 @@ export default async function PedidosPage() {
               <p className="text-sm text-ink/70">
                 Produtos R$ {p.valor_produtos} · Frete R$ {p.valor_frete} · Taxa do canal R${" "}
                 {p.taxa_valor_aplicada ?? 0}
+                {p.pedido_expedicao && ` · Caixa ${p.pedido_expedicao.tipo_caixa}`}
               </p>
 
               <div className="mt-2 overflow-x-auto">
