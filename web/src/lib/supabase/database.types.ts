@@ -1517,6 +1517,14 @@ export type Database = {
         }
         Returns: string
       }
+      fn_registrar_producao: {
+        Args: {
+          p_empresa_id: string
+          p_quantidade: number
+          p_variacao_id: string
+        }
+        Returns: string
+      }
       fn_saldo_atual: {
         Args: {
           p_item_id: string
