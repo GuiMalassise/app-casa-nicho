@@ -38,7 +38,7 @@ export default async function ComprasPage() {
                 </span>
               </div>
               <div className="overflow-x-auto">
-                <table className="w-full min-w-[28rem] text-sm">
+                <table className="w-full text-sm">
                   <thead>
                     <tr className="text-left text-ink/50">
                       <th className="pb-1 font-normal">Item</th>

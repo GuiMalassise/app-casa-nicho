@@ -39,7 +39,7 @@ export default async function PerfumesPage() {
                 <h2 className="font-display text-xl">{p.nome}</h2>
               </div>
               <div className="overflow-x-auto">
-                <table className="w-full min-w-[24rem] text-sm">
+                <table className="w-full text-sm">
                   <thead>
                     <tr className="text-left text-ink/50">
                       <th className="pb-1 font-normal">Tamanho</th>
@@ -55,7 +55,7 @@ export default async function PerfumesPage() {
                         <td className="py-1">
                           {v.modo_venda === "fracionado" ? "Fracionado" : "Inteiro"}
                         </td>
-                        <td className="py-1 font-mono text-xs">{v.sku}</td>
+                        <td className="py-1 font-mono text-xs break-all">{v.sku}</td>
                         <td className="py-1 tabular-nums">
                           {v.preco_venda ? `R$ ${v.preco_venda}` : "—"}
                         </td>

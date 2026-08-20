@@ -93,7 +93,7 @@ export default async function FinanceiroPage() {
       <section className="rounded-lg border border-ink/10 p-4">
         <h2 className="mb-3 font-display text-xl">Vendas — faturamento, custo e margem</h2>
         <div className="overflow-x-auto">
-          <table className="w-full min-w-[32rem] text-sm">
+          <table className="w-full text-sm">
             <thead>
               <tr className="text-left text-ink/50">
                 <th className="pb-1 font-normal">Pedido</th>

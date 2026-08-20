@@ -52,7 +52,7 @@ export default async function PedidosPage() {
               </p>
 
               <div className="mt-2 overflow-x-auto">
-                <table className="w-full min-w-[24rem] text-sm">
+                <table className="w-full text-sm">
                   <thead>
                     <tr className="text-left text-ink/50">
                       <th className="pb-1 font-normal">Item</th>
@@ -65,7 +65,7 @@ export default async function PedidosPage() {
                   <tbody>
                     {p.pedido_itens.map((item) => (
                       <tr key={item.id} className="border-t border-ink/10">
-                        <td className="py-1 font-mono text-xs">{item.variacoes?.sku ?? "?"}</td>
+                        <td className="py-1 font-mono text-xs break-all">{item.variacoes?.sku ?? "?"}</td>
                         <td className="py-1 tabular-nums">{item.quantidade}</td>
                         <td className="py-1 tabular-nums">R$ {item.preco_unitario}</td>
                         <td className="py-1 capitalize">{item.status}</td>

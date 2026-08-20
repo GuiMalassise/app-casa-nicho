@@ -37,7 +37,7 @@ export default async function EstoquePage() {
           <p className="text-sm text-ink/60">Nenhum lote registrado ainda (aguarda o módulo de Compras).</p>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full min-w-[28rem] text-sm">
+            <table className="w-full text-sm">
               <thead>
                 <tr className="text-left text-ink/50">
                   <th className="pb-1 font-normal">Perfume</th>
@@ -67,7 +67,7 @@ export default async function EstoquePage() {
           <p className="text-sm text-ink/60">Nenhum decant produzido ainda.</p>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full min-w-[28rem] text-sm">
+            <table className="w-full text-sm">
               <thead>
                 <tr className="text-left text-ink/50">
                   <th className="pb-1 font-normal">SKU</th>
@@ -79,7 +79,7 @@ export default async function EstoquePage() {
               <tbody>
                 {variacoesView.map((v) => (
                   <tr key={v.variacao_id} className="border-t border-ink/10">
-                    <td className="py-1 font-mono text-xs">{v.sku}</td>
+                    <td className="py-1 font-mono text-xs break-all">{v.sku}</td>
                     <td className="py-1 tabular-nums">{v.estoque_fisico}</td>
                     <td className="py-1 tabular-nums">{v.estoque_reservado}</td>
                     <td className="py-1 tabular-nums">{v.estoque_disponivel}</td>
@@ -97,7 +97,7 @@ export default async function EstoquePage() {
           <p className="text-sm text-ink/60">Nenhum insumo cadastrado.</p>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full min-w-[24rem] text-sm">
+            <table className="w-full text-sm">
               <thead>
                 <tr className="text-left text-ink/50">
                   <th className="pb-1 font-normal">Insumo</th>
