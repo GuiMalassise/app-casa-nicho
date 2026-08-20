@@ -14,8 +14,8 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "PerfumeHub",
-  description: "Gestão de perfumes, decants, estoque e pedidos.",
+  title: "PerfumeOS",
+  description: "Do estoque ao lucro, tudo em um só lugar.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
