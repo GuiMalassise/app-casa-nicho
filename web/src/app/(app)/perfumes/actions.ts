@@ -27,6 +27,8 @@ export async function criarPerfume(_prevState: { erro: string } | null, formData
     return { erro: "Informe o nome do perfume." };
   }
 
+  const prefixoSku = String(formData.get("prefixoSku") ?? "").trim() || nome;
+
   const variacoes: { volumeMl: number; modoVenda: "fracionado" | "inteiro" }[] = [];
 
   for (const volumeStr of formData.getAll("tamanho") as string[]) {
@@ -63,7 +65,7 @@ export async function criarPerfume(_prevState: { erro: string } | null, formData
         perfume_id: perfume.id,
         volume_ml: v.volumeMl,
         modo_venda: v.modoVenda,
-        sku: gerarSku(nome, v.volumeMl),
+        sku: gerarSku(prefixoSku, v.volumeMl),
       })
       .select("id")
       .single();

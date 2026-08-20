@@ -1,10 +1,12 @@
-export function gerarSku(nomePerfume: string, volumeMl: number) {
-  const base = nomePerfume
+export function normalizarPrefixoSku(texto: string) {
+  return texto
     .normalize("NFD")
     .replace(/[̀-ͯ]/g, "")
     .toUpperCase()
     .replace(/[^A-Z0-9]+/g, "-")
     .replace(/^-+|-+$/g, "");
+}
 
-  return `${base}-${volumeMl}ML`;
+export function gerarSku(prefixo: string, volumeMl: number) {
+  return `${normalizarPrefixoSku(prefixo)}-${volumeMl}ML`;
 }
