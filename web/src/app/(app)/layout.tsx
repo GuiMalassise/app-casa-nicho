@@ -35,6 +35,9 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
             <Link href="/financeiro" className="hover:text-bordeaux">
               Financeiro
             </Link>
+            <Link href="/configuracoes" className="hover:text-bordeaux">
+              Configurações
+            </Link>
           </nav>
         </div>
         <SairButton />
