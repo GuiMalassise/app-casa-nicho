@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { SairButton } from "./sair-button";
+import { Nav } from "./nav";
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -13,32 +14,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
               PerfumeOS
             </span>
           </Link>
-          <nav className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-ink/70">
-            <Link href="/dashboard" className="hover:text-bordeaux">
-              Dashboard
-            </Link>
-            <Link href="/perfumes" className="hover:text-bordeaux">
-              Perfumes
-            </Link>
-            <Link href="/estoque" className="hover:text-bordeaux">
-              Estoque
-            </Link>
-            <Link href="/compras" className="hover:text-bordeaux">
-              Compras
-            </Link>
-            <Link href="/producao" className="hover:text-bordeaux">
-              Produção
-            </Link>
-            <Link href="/pedidos" className="hover:text-bordeaux">
-              Pedidos
-            </Link>
-            <Link href="/financeiro" className="hover:text-bordeaux">
-              Financeiro
-            </Link>
-            <Link href="/configuracoes" className="hover:text-bordeaux">
-              Configurações
-            </Link>
-          </nav>
+          <Nav />
         </div>
         <SairButton />
       </header>
