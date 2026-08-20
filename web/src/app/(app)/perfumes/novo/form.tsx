@@ -60,7 +60,7 @@ export function NovoPerfumeForm({ tamanhosPadrao }: { tamanhosPadrao: number[] }
       <fieldset className="space-y-3">
         <legend className="text-sm text-ink/70">Tamanhos</legend>
         {tamanhosPadrao.map((tamanho) => (
-          <div key={tamanho} className="flex items-center gap-3">
+          <div key={tamanho} className="flex flex-wrap items-center gap-2">
             <label className="flex w-40 items-center gap-2 text-sm">
               <input type="checkbox" name="tamanho" value={tamanho} defaultChecked />
               {tamanho}ml
@@ -75,7 +75,7 @@ export function NovoPerfumeForm({ tamanhosPadrao }: { tamanhosPadrao: number[] }
           </div>
         ))}
 
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-2">
           <input
             type="number"
             name="outroVolume"
