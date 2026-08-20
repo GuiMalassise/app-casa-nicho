@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
+import { Botao } from "@/components/botao";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -73,13 +74,9 @@ export default function LoginPage() {
 
         {erro && <p className="text-sm text-bordeaux">{erro}</p>}
 
-        <button
-          type="submit"
-          disabled={carregando}
-          className="w-full rounded bg-bordeaux py-2 text-sm font-medium text-bone disabled:opacity-60"
-        >
+        <Botao type="submit" disabled={carregando} className="w-full">
           {carregando ? "Entrando..." : "Entrar"}
-        </button>
+        </Botao>
       </form>
     </main>
   );

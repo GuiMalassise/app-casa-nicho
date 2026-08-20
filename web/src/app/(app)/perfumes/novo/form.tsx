@@ -4,6 +4,7 @@ import { useActionState, useEffect, useState } from "react";
 import { criarPerfume } from "../actions";
 import { gerarSku, normalizarPrefixoSku } from "@/lib/sku";
 import { createClient } from "@/lib/supabase/client";
+import { Botao, classeBotao } from "@/components/botao";
 
 const inputClass =
   "w-full rounded border border-ink/20 bg-bone px-3 py-2 text-sm outline-none focus:border-bordeaux";
@@ -116,10 +117,7 @@ export function NovoPerfumeForm({
               className="h-16 w-16 rounded object-cover"
             />
           )}
-          <label
-            htmlFor="foto"
-            className="cursor-pointer rounded-full bg-bordeaux px-4 py-1.5 text-sm font-medium text-bone hover:bg-bordeaux/90"
-          >
+          <label htmlFor="foto" className={classeBotao}>
             Escolher foto
           </label>
           <input
@@ -197,13 +195,9 @@ export function NovoPerfumeForm({
 
       {state?.erro && <p className="text-sm text-bordeaux">{state.erro}</p>}
 
-      <button
-        type="submit"
-        disabled={pending || enviandoFoto}
-        className="rounded bg-bordeaux px-4 py-2 text-sm font-medium text-bone disabled:opacity-60"
-      >
+      <Botao type="submit" disabled={pending || enviandoFoto}>
         {pending ? "Salvando..." : "Salvar perfume"}
-      </button>
+      </Botao>
     </form>
   );
 }

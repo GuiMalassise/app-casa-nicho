@@ -1,6 +1,6 @@
-import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { VillaMark } from "@/components/villa-mark";
+import { BotaoLink } from "@/components/botao";
 
 export default async function PerfumesPage() {
   const supabase = await createClient();
@@ -14,12 +14,7 @@ export default async function PerfumesPage() {
     <div className="mx-auto max-w-4xl px-6 py-10">
       <div className="mb-6 flex items-center justify-between">
         <h1 className="font-display text-3xl text-bordeaux">Perfumes</h1>
-        <Link
-          href="/perfumes/novo"
-          className="rounded bg-bordeaux px-4 py-2 text-sm font-medium text-bone"
-        >
-          Novo perfume
-        </Link>
+        <BotaoLink href="/perfumes/novo">Novo perfume</BotaoLink>
       </div>
 
       {!perfumes || perfumes.length === 0 ? (

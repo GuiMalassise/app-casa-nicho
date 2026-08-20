@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
+import { Botao } from "@/components/botao";
 
 export function SairButton() {
   const router = useRouter();
@@ -13,9 +14,5 @@ export function SairButton() {
     router.refresh();
   }
 
-  return (
-    <button onClick={sair} className="text-sm text-ink/60 hover:text-bordeaux">
-      Sair
-    </button>
-  );
+  return <Botao onClick={sair}>Sair</Botao>;
 }
