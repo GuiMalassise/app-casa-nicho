@@ -7,13 +7,16 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
     <div className="flex min-h-full flex-col">
       <header className="flex flex-wrap items-center justify-between gap-4 border-b border-ink/10 px-6 py-4">
         <div className="flex flex-wrap items-center gap-6">
-          <Link href="/perfumes" className="flex items-center gap-2">
+          <Link href="/dashboard" className="flex items-center gap-2">
             <VillaMark className="h-6 w-6 text-terracotta" />
             <span className="font-display text-lg italic text-bordeaux">
               PerfumeHub
             </span>
           </Link>
           <nav className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-ink/70">
+            <Link href="/dashboard" className="hover:text-bordeaux">
+              Dashboard
+            </Link>
             <Link href="/perfumes" className="hover:text-bordeaux">
               Perfumes
             </Link>
