@@ -1507,6 +1507,16 @@ export type Database = {
           quantidade_ml: number
         }[]
       }
+      fn_registrar_compra: {
+        Args: {
+          p_data: string
+          p_empresa_id: string
+          p_fornecedor_id: string
+          p_frete_total: number
+          p_itens: Json
+        }
+        Returns: string
+      }
       fn_saldo_atual: {
         Args: {
           p_item_id: string
