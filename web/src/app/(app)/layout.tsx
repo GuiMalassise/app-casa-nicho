@@ -13,7 +13,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
               PerfumeHub
             </span>
           </Link>
-          <nav className="flex gap-4 text-sm text-ink/70">
+          <nav className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-ink/70">
             <Link href="/perfumes" className="hover:text-bordeaux">
               Perfumes
             </Link>
