@@ -12,10 +12,15 @@ export default async function NovoPerfumePage() {
 
   const tamanhosPadrao = (config?.valor as number[] | undefined) ?? [];
 
+  const { data: usuario } = await supabase
+    .from("usuarios")
+    .select("empresa_id")
+    .single();
+
   return (
     <div className="mx-auto max-w-lg px-6 py-10">
       <h1 className="mb-6 font-display text-3xl text-bordeaux">Novo perfume</h1>
-      <NovoPerfumeForm tamanhosPadrao={tamanhosPadrao} />
+      <NovoPerfumeForm tamanhosPadrao={tamanhosPadrao} empresaId={usuario?.empresa_id ?? ""} />
     </div>
   );
 }

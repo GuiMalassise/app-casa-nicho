@@ -3,13 +3,21 @@
 import { useActionState, useEffect, useState } from "react";
 import { criarPerfume } from "../actions";
 import { gerarSku, normalizarPrefixoSku } from "@/lib/sku";
+import { createClient } from "@/lib/supabase/client";
 
 const inputClass =
   "w-full rounded border border-ink/20 bg-bone px-3 py-2 text-sm outline-none focus:border-bordeaux";
 const selectClass =
   "rounded border border-ink/20 bg-bone px-2 py-1 text-sm outline-none focus:border-bordeaux";
+const precoClass = `${inputClass} w-24`;
 
-export function NovoPerfumeForm({ tamanhosPadrao }: { tamanhosPadrao: number[] }) {
+export function NovoPerfumeForm({
+  tamanhosPadrao,
+  empresaId,
+}: {
+  tamanhosPadrao: number[];
+  empresaId: string;
+}) {
   const [state, formAction, pending] = useActionState(criarPerfume, null);
 
   const [nome, setNome] = useState("");
@@ -17,9 +25,46 @@ export function NovoPerfumeForm({ tamanhosPadrao }: { tamanhosPadrao: number[] }
   const [prefixoEditado, setPrefixoEditado] = useState(false);
   const [outroVolume, setOutroVolume] = useState("");
 
+  const [fotoUrl, setFotoUrl] = useState("");
+  const [enviandoFoto, setEnviandoFoto] = useState(false);
+  const [erroFoto, setErroFoto] = useState<string | null>(null);
+
   useEffect(() => {
     if (!prefixoEditado) setPrefixo(normalizarPrefixoSku(nome));
   }, [nome, prefixoEditado]);
+
+  async function handleFoto(e: React.ChangeEvent<HTMLInputElement>) {
+    const arquivo = e.target.files?.[0];
+    if (!arquivo) return;
+
+    if (!arquivo.type.startsWith("image/")) {
+      setErroFoto("Envie um arquivo de imagem.");
+      return;
+    }
+    if (arquivo.size > 5 * 1024 * 1024) {
+      setErroFoto("Imagem maior que 5MB — tenta uma menor.");
+      return;
+    }
+
+    setErroFoto(null);
+    setEnviandoFoto(true);
+
+    const supabase = createClient();
+    const extensao = arquivo.name.split(".").pop();
+    const caminho = `${empresaId}/${crypto.randomUUID()}.${extensao}`;
+
+    const { error } = await supabase.storage.from("perfumes").upload(caminho, arquivo);
+
+    setEnviandoFoto(false);
+
+    if (error) {
+      setErroFoto(`Não consegui enviar a foto: ${error.message}`);
+      return;
+    }
+
+    const { data } = supabase.storage.from("perfumes").getPublicUrl(caminho);
+    setFotoUrl(data.publicUrl);
+  }
 
   return (
     <form action={formAction} className="space-y-6">
@@ -57,11 +102,38 @@ export function NovoPerfumeForm({ tamanhosPadrao }: { tamanhosPadrao: number[] }
         </p>
       </div>
 
+      <div className="space-y-2">
+        <label htmlFor="foto" className="text-sm text-ink/70">
+          Foto do perfume
+        </label>
+        <div className="flex flex-wrap items-center gap-3">
+          {fotoUrl && (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={fotoUrl}
+              alt="Prévia do perfume"
+              className="h-16 w-16 rounded object-cover"
+            />
+          )}
+          <input
+            id="foto"
+            type="file"
+            accept="image/*"
+            onChange={handleFoto}
+            disabled={enviandoFoto}
+            className="text-sm"
+          />
+          {enviandoFoto && <span className="text-xs text-ink/50">Enviando...</span>}
+        </div>
+        <input type="hidden" name="fotoUrl" value={fotoUrl} />
+        {erroFoto && <p className="text-xs text-bordeaux">{erroFoto}</p>}
+      </div>
+
       <fieldset className="space-y-3">
         <legend className="text-sm text-ink/70">Tamanhos</legend>
         {tamanhosPadrao.map((tamanho) => (
           <div key={tamanho} className="flex flex-wrap items-center gap-2">
-            <label className="flex w-40 items-center gap-2 text-sm">
+            <label className="flex w-32 items-center gap-2 text-sm">
               <input type="checkbox" name="tamanho" value={tamanho} defaultChecked />
               {tamanho}ml
             </label>
@@ -69,6 +141,14 @@ export function NovoPerfumeForm({ tamanhosPadrao }: { tamanhosPadrao: number[] }
               <option value="fracionado">Fracionado (decant)</option>
               <option value="inteiro">Inteiro (frasco fechado)</option>
             </select>
+            <input
+              type="number"
+              name={`preco-${tamanho}`}
+              placeholder="Preço R$"
+              min={0}
+              step="0.01"
+              className={precoClass}
+            />
             <span className="font-mono text-xs text-ink/40">
               {gerarSku(prefixo, tamanho)}
             </span>
@@ -84,12 +164,20 @@ export function NovoPerfumeForm({ tamanhosPadrao }: { tamanhosPadrao: number[] }
             step="0.01"
             value={outroVolume}
             onChange={(e) => setOutroVolume(e.target.value)}
-            className={`${inputClass} w-40`}
+            className={`${inputClass} w-32`}
           />
           <select name="modo-outro" defaultValue="fracionado" className={selectClass}>
             <option value="fracionado">Fracionado (decant)</option>
             <option value="inteiro">Inteiro (frasco fechado)</option>
           </select>
+          <input
+            type="number"
+            name="preco-outro"
+            placeholder="Preço R$"
+            min={0}
+            step="0.01"
+            className={precoClass}
+          />
           {outroVolume && (
             <span className="font-mono text-xs text-ink/40">
               {gerarSku(prefixo, Number(outroVolume))}
@@ -102,7 +190,7 @@ export function NovoPerfumeForm({ tamanhosPadrao }: { tamanhosPadrao: number[] }
 
       <button
         type="submit"
-        disabled={pending}
+        disabled={pending || enviandoFoto}
         className="rounded bg-bordeaux px-4 py-2 text-sm font-medium text-bone disabled:opacity-60"
       >
         {pending ? "Salvando..." : "Salvar perfume"}

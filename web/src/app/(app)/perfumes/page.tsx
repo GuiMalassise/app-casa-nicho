@@ -1,12 +1,13 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
+import { VillaMark } from "@/components/villa-mark";
 
 export default async function PerfumesPage() {
   const supabase = await createClient();
 
   const { data: perfumes } = await supabase
     .from("perfumes")
-    .select("id, nome, variacoes (id, volume_ml, modo_venda, sku, preco_venda)")
+    .select("id, nome, foto_url, variacoes (id, volume_ml, modo_venda, sku, preco_venda)")
     .order("nome");
 
   return (
@@ -27,31 +28,47 @@ export default async function PerfumesPage() {
         <div className="space-y-4">
           {perfumes.map((p) => (
             <div key={p.id} className="rounded-lg border border-ink/10 p-4">
-              <h2 className="font-display text-xl">{p.nome}</h2>
-              <table className="mt-3 w-full text-sm">
-                <thead>
-                  <tr className="text-left text-ink/50">
-                    <th className="pb-1 font-normal">Tamanho</th>
-                    <th className="pb-1 font-normal">Modo</th>
-                    <th className="pb-1 font-normal">SKU</th>
-                    <th className="pb-1 font-normal">Preço</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {p.variacoes.map((v) => (
-                    <tr key={v.id} className="border-t border-ink/10">
-                      <td className="py-1 tabular-nums">{v.volume_ml}ml</td>
-                      <td className="py-1">
-                        {v.modo_venda === "fracionado" ? "Fracionado" : "Inteiro"}
-                      </td>
-                      <td className="py-1 font-mono text-xs">{v.sku}</td>
-                      <td className="py-1 tabular-nums">
-                        {v.preco_venda ? `R$ ${v.preco_venda}` : "—"}
-                      </td>
+              <div className="mb-3 flex items-center gap-3">
+                {p.foto_url ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={p.foto_url}
+                    alt={p.nome}
+                    className="h-12 w-12 rounded object-cover"
+                  />
+                ) : (
+                  <div className="flex h-12 w-12 items-center justify-center rounded bg-bordeaux/5">
+                    <VillaMark className="h-6 w-6 text-terracotta/60" />
+                  </div>
+                )}
+                <h2 className="font-display text-xl">{p.nome}</h2>
+              </div>
+              <div className="overflow-x-auto">
+                <table className="w-full min-w-[24rem] text-sm">
+                  <thead>
+                    <tr className="text-left text-ink/50">
+                      <th className="pb-1 font-normal">Tamanho</th>
+                      <th className="pb-1 font-normal">Modo</th>
+                      <th className="pb-1 font-normal">SKU</th>
+                      <th className="pb-1 font-normal">Preço</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {p.variacoes.map((v) => (
+                      <tr key={v.id} className="border-t border-ink/10">
+                        <td className="py-1 tabular-nums">{v.volume_ml}ml</td>
+                        <td className="py-1">
+                          {v.modo_venda === "fracionado" ? "Fracionado" : "Inteiro"}
+                        </td>
+                        <td className="py-1 font-mono text-xs">{v.sku}</td>
+                        <td className="py-1 tabular-nums">
+                          {v.preco_venda ? `R$ ${v.preco_venda}` : "—"}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
           ))}
         </div>

@@ -28,19 +28,29 @@ export async function criarPerfume(_prevState: { erro: string } | null, formData
   }
 
   const prefixoSku = String(formData.get("prefixoSku") ?? "").trim() || nome;
+  const fotoUrl = String(formData.get("fotoUrl") ?? "").trim() || null;
 
-  const variacoes: { volumeMl: number; modoVenda: "fracionado" | "inteiro" }[] = [];
+  function precoDe(chave: string): number | null {
+    const valor = Number(formData.get(chave) ?? 0);
+    return valor > 0 ? valor : null;
+  }
+
+  const variacoes: {
+    volumeMl: number;
+    modoVenda: "fracionado" | "inteiro";
+    preco: number | null;
+  }[] = [];
 
   for (const volumeStr of formData.getAll("tamanho") as string[]) {
     const volumeMl = Number(volumeStr);
     const modoVenda = formData.get(`modo-${volumeStr}`) === "inteiro" ? "inteiro" : "fracionado";
-    variacoes.push({ volumeMl, modoVenda });
+    variacoes.push({ volumeMl, modoVenda, preco: precoDe(`preco-${volumeStr}`) });
   }
 
   const outroVolume = Number(formData.get("outroVolume") ?? 0);
   if (outroVolume > 0) {
     const modoVenda = formData.get("modo-outro") === "inteiro" ? "inteiro" : "fracionado";
-    variacoes.push({ volumeMl: outroVolume, modoVenda });
+    variacoes.push({ volumeMl: outroVolume, modoVenda, preco: precoDe("preco-outro") });
   }
 
   if (variacoes.length === 0) {
@@ -49,7 +59,7 @@ export async function criarPerfume(_prevState: { erro: string } | null, formData
 
   const { data: perfume, error: erroPerfume } = await supabase
     .from("perfumes")
-    .insert({ empresa_id: usuario.empresa_id, nome })
+    .insert({ empresa_id: usuario.empresa_id, nome, foto_url: fotoUrl })
     .select("id")
     .single();
 
@@ -65,6 +75,7 @@ export async function criarPerfume(_prevState: { erro: string } | null, formData
         perfume_id: perfume.id,
         volume_ml: v.volumeMl,
         modo_venda: v.modoVenda,
+        preco_venda: v.preco,
         sku: gerarSku(prefixoSku, v.volumeMl),
       })
       .select("id")

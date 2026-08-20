@@ -969,18 +969,21 @@ export type Database = {
         Row: {
           criado_em: string
           empresa_id: string
+          foto_url: string | null
           id: string
           nome: string
         }
         Insert: {
           criado_em?: string
           empresa_id: string
+          foto_url?: string | null
           id?: string
           nome: string
         }
         Update: {
           criado_em?: string
           empresa_id?: string
+          foto_url?: string | null
           id?: string
           nome?: string
         }
