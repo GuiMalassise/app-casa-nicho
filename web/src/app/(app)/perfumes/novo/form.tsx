@@ -26,6 +26,7 @@ export function NovoPerfumeForm({
   const [outroVolume, setOutroVolume] = useState("");
 
   const [fotoUrl, setFotoUrl] = useState("");
+  const [nomeArquivo, setNomeArquivo] = useState("");
   const [enviandoFoto, setEnviandoFoto] = useState(false);
   const [erroFoto, setErroFoto] = useState<string | null>(null);
 
@@ -36,6 +37,8 @@ export function NovoPerfumeForm({
   async function handleFoto(e: React.ChangeEvent<HTMLInputElement>) {
     const arquivo = e.target.files?.[0];
     if (!arquivo) return;
+
+    setNomeArquivo(arquivo.name);
 
     if (!arquivo.type.startsWith("image/")) {
       setErroFoto("Envie um arquivo de imagem.");
@@ -103,9 +106,7 @@ export function NovoPerfumeForm({
       </div>
 
       <div className="space-y-2">
-        <label htmlFor="foto" className="text-sm text-ink/70">
-          Foto do perfume
-        </label>
+        <span className="text-sm text-ink/70">Foto do perfume</span>
         <div className="flex flex-wrap items-center gap-3">
           {fotoUrl && (
             // eslint-disable-next-line @next/next/no-img-element
@@ -115,15 +116,23 @@ export function NovoPerfumeForm({
               className="h-16 w-16 rounded object-cover"
             />
           )}
+          <label
+            htmlFor="foto"
+            className="cursor-pointer rounded-full bg-bordeaux px-4 py-1.5 text-sm font-medium text-bone hover:bg-bordeaux/90"
+          >
+            Escolher foto
+          </label>
           <input
             id="foto"
             type="file"
             accept="image/*"
             onChange={handleFoto}
             disabled={enviandoFoto}
-            className="text-sm"
+            className="sr-only"
           />
-          {enviandoFoto && <span className="text-xs text-ink/50">Enviando...</span>}
+          <span className="text-xs text-ink/50">
+            {enviandoFoto ? "Enviando..." : nomeArquivo || "Nenhuma foto selecionada"}
+          </span>
         </div>
         <input type="hidden" name="fotoUrl" value={fotoUrl} />
         {erroFoto && <p className="text-xs text-bordeaux">{erroFoto}</p>}
