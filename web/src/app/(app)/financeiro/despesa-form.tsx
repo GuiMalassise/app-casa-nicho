@@ -5,7 +5,7 @@ import { criarDespesaFixa } from "./actions";
 import { Botao } from "@/components/botao";
 
 const inputClass =
-  "rounded border border-ink/20 bg-bone px-3 py-2 text-sm outline-none focus:border-bordeaux";
+  "max-w-full rounded border border-ink/20 bg-bone px-3 py-2 text-sm outline-none focus:border-bordeaux";
 
 export function DespesaFixaForm() {
   const [state, formAction, pending] = useActionState(criarDespesaFixa, null);

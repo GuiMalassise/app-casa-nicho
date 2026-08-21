@@ -7,9 +7,9 @@ import { createClient } from "@/lib/supabase/client";
 import { Botao, classeBotao } from "@/components/botao";
 
 const inputClass =
-  "w-full rounded border border-ink/20 bg-bone px-3 py-2 text-sm outline-none focus:border-bordeaux";
+  "w-full max-w-full rounded border border-ink/20 bg-bone px-3 py-2 text-sm outline-none focus:border-bordeaux";
 const selectClass =
-  "rounded border border-ink/20 bg-bone px-2 py-1 text-sm outline-none focus:border-bordeaux";
+  "max-w-full rounded border border-ink/20 bg-bone px-2 py-1 text-sm outline-none focus:border-bordeaux";
 const precoClass = `${inputClass} w-24`;
 
 export function NovoPerfumeForm({

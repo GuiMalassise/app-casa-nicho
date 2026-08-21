@@ -5,7 +5,7 @@ import { registrarPedido } from "../actions";
 import { Botao } from "@/components/botao";
 
 const inputClass =
-  "w-full rounded border border-ink/20 bg-bone px-3 py-2 text-sm outline-none focus:border-bordeaux";
+  "w-full max-w-full rounded border border-ink/20 bg-bone px-3 py-2 text-sm outline-none focus:border-bordeaux";
 const selectClass = inputClass;
 
 type VariacaoOpcao = { id: string; label: string; precoSugerido: number | null };
