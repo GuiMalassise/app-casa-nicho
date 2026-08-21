@@ -28,7 +28,7 @@ export default async function EstoquePage() {
   const nomePerfume = new Map((perfumes ?? []).map((p) => [p.id, p.nome]));
 
   return (
-    <div className="mx-auto max-w-4xl space-y-8 px-6 py-10">
+    <div className="mx-auto max-w-4xl space-y-8 px-8 py-10">
       <h1 className="font-display text-3xl text-bordeaux">Estoque</h1>
 
       <section className="rounded-lg border border-ink/10 p-4">

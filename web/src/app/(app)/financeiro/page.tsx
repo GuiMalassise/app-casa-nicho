@@ -67,7 +67,7 @@ export default async function FinanceiroPage() {
     .reduce((s, c) => s + c.valor, 0);
 
   return (
-    <div className="mx-auto max-w-4xl space-y-8 px-6 py-10">
+    <div className="mx-auto max-w-4xl space-y-8 px-8 py-10">
       <h1 className="font-display text-3xl text-bordeaux">Financeiro</h1>
 
       <section className="grid grid-cols-2 gap-3 sm:grid-cols-4">

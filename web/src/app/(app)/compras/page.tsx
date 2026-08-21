@@ -19,7 +19,7 @@ export default async function ComprasPage() {
     .order("data", { ascending: false });
 
   return (
-    <div className="mx-auto max-w-4xl px-6 py-10">
+    <div className="mx-auto max-w-4xl px-8 py-10">
       <div className="mb-6 flex items-center justify-between">
         <h1 className="font-display text-3xl text-bordeaux">Compras</h1>
         <BotaoLink href="/compras/nova">Nova compra</BotaoLink>

@@ -18,7 +18,7 @@ export default async function NovaProducaoPage() {
   );
 
   return (
-    <div className="mx-auto max-w-lg px-6 py-10">
+    <div className="mx-auto max-w-lg px-8 py-10">
       <h1 className="mb-6 font-display text-3xl text-bordeaux">Nova produção</h1>
       <NovaProducaoForm
         variacoes={(variacoes ?? []).map((v) => ({

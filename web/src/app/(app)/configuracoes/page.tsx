@@ -34,7 +34,7 @@ export default async function ConfiguracoesPage() {
   const estoqueMinimo = (mapaConfig.get("estoque_minimo_padrao") as number | undefined) ?? 0;
 
   return (
-    <div className="mx-auto max-w-4xl space-y-8 px-6 py-10">
+    <div className="mx-auto max-w-4xl space-y-8 px-8 py-10">
       <h1 className="font-display text-3xl text-bordeaux">Configurações</h1>
 
       <section className="rounded-lg border border-ink/10 p-4">

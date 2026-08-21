@@ -5,7 +5,7 @@ import { Nav } from "./nav";
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex min-h-full flex-col">
-      <header className="flex flex-wrap items-center justify-between gap-4 border-b border-ink/10 px-6 py-4">
+      <header className="flex flex-wrap items-center justify-between gap-4 border-b border-ink/10 px-8 py-4">
         <div className="flex flex-wrap items-center gap-6">
           <Link href="/dashboard" className="flex items-center gap-2">
             {/* eslint-disable-next-line @next/next/no-img-element */}

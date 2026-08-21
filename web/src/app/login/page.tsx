@@ -35,19 +35,19 @@ export default function LoginPage() {
   }
 
   return (
-    <main className="flex flex-1 items-center justify-center px-6">
+    <main className="flex flex-1 flex-col items-center justify-center gap-6 px-8">
+      <div className="flex items-center gap-3">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/logo-icone.png" alt="" className="h-12 w-12 rounded object-cover" />
+        <h1 className="font-display text-3xl italic text-bordeaux">
+          PerfumeOS
+        </h1>
+      </div>
+
       <form
         onSubmit={handleSubmit}
         className="w-full max-w-sm space-y-5 rounded-lg border border-ink/10 bg-white/40 p-8"
       >
-        <div className="flex items-center gap-3">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/logo-icone.png" alt="" className="h-10 w-10 rounded object-cover" />
-          <h1 className="font-display text-2xl italic text-bordeaux">
-            PerfumeOS
-          </h1>
-        </div>
-
         <div className="space-y-1">
           <label htmlFor="email" className="text-sm text-ink/70">
             E-mail

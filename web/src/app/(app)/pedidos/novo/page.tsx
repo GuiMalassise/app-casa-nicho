@@ -14,7 +14,7 @@ export default async function NovoPedidoPage() {
   ]);
 
   return (
-    <div className="mx-auto max-w-2xl px-6 py-10">
+    <div className="mx-auto max-w-2xl px-8 py-10">
       <h1 className="mb-6 font-display text-3xl text-bordeaux">Novo pedido</h1>
       <NovoPedidoForm
         canais={(canais ?? []).map((c) => ({ id: c.id, nome: c.nome }))}
