@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { VillaMark } from "@/components/villa-mark";
 import { BotaoLink } from "@/components/botao";
+import { ExcluirBotao } from "./excluir-botao";
 
 export default async function PerfumesPage() {
   const supabase = await createClient();
@@ -64,6 +65,7 @@ export default async function PerfumesPage() {
                   </tbody>
                 </table>
               </div>
+              <ExcluirBotao perfumeId={p.id} nome={p.nome} />
             </div>
           ))}
         </div>

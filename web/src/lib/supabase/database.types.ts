@@ -1539,6 +1539,7 @@ export type Database = {
         Args: { p_pedido_item_id: string }
         Returns: undefined
       }
+      fn_excluir_perfume: { Args: { p_perfume_id: string }; Returns: undefined }
       fn_registrar_compra: {
         Args: {
           p_data: string

@@ -110,3 +110,21 @@ export async function criarPerfume(_prevState: { erro: string } | null, formData
   revalidatePath("/perfumes");
   redirect("/perfumes");
 }
+
+export async function excluirPerfume(perfumeId: string) {
+  const supabase = await createClient();
+
+  const { data: claims } = await supabase.auth.getClaims();
+  if (!claims?.claims) {
+    return { erro: "Sessão expirada, faça login de novo." };
+  }
+
+  const { error } = await supabase.rpc("fn_excluir_perfume", { p_perfume_id: perfumeId });
+
+  if (error) {
+    return { erro: error.message };
+  }
+
+  revalidatePath("/perfumes");
+  return { ok: true as const };
+}
