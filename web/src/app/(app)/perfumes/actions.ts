@@ -111,6 +111,49 @@ export async function criarPerfume(_prevState: { erro: string } | null, formData
   redirect("/perfumes");
 }
 
+export async function editarPerfume(_prevState: { erro: string } | null, formData: FormData) {
+  const supabase = await createClient();
+
+  const { data: claims } = await supabase.auth.getClaims();
+  if (!claims?.claims) {
+    return { erro: "Sessão expirada, faça login de novo." };
+  }
+
+  const perfumeId = String(formData.get("perfumeId") ?? "");
+  const nome = String(formData.get("nome") ?? "").trim();
+  if (!perfumeId || !nome) {
+    return { erro: "Informe o nome do perfume." };
+  }
+
+  const fotoUrl = String(formData.get("fotoUrl") ?? "").trim() || null;
+
+  const { error: erroPerfume } = await supabase
+    .from("perfumes")
+    .update({ nome, foto_url: fotoUrl })
+    .eq("id", perfumeId);
+
+  if (erroPerfume) {
+    return { erro: `Não consegui salvar o perfume: ${erroPerfume.message}` };
+  }
+
+  for (const variacaoId of formData.getAll("variacaoId") as string[]) {
+    const precoStr = formData.get(`preco-${variacaoId}`);
+    const preco = Number(precoStr ?? 0);
+
+    const { error: erroVariacao } = await supabase
+      .from("variacoes")
+      .update({ preco_venda: preco > 0 ? preco : null })
+      .eq("id", variacaoId);
+
+    if (erroVariacao) {
+      return { erro: `Não consegui salvar o preço: ${erroVariacao.message}` };
+    }
+  }
+
+  revalidatePath("/perfumes");
+  redirect("/perfumes");
+}
+
 export async function excluirPerfume(perfumeId: string) {
   const supabase = await createClient();
 

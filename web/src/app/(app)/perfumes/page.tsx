@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { VillaMark } from "@/components/villa-mark";
 import { BotaoLink } from "@/components/botao";
@@ -48,8 +49,8 @@ export default async function PerfumesPage() {
                 <table className="w-full text-sm">
                   <thead>
                     <tr className="text-left text-ink/50">
-                      <th className="pb-1 pr-3 font-normal">Tamanho</th>
-                      <th className="pb-1 pr-3 font-normal">Modo</th>
+                      <th className="pb-1 pr-3 font-normal">ML</th>
+                      <th className="pb-1 pr-3 font-normal">Tipo</th>
                       <th className="pb-1 pr-3 font-normal">SKU</th>
                       <th className="pb-1 pr-3 font-normal">Preço</th>
                       <th className="pb-1 font-normal">Estoque</th>
@@ -82,7 +83,15 @@ export default async function PerfumesPage() {
                   </tbody>
                 </table>
               </div>
-              <ExcluirBotao perfumeId={p.id} nome={p.nome} />
+              <div className="flex items-center justify-end gap-3">
+                <Link
+                  href={`/perfumes/${p.id}/editar`}
+                  className="text-xs text-ink/50 hover:text-bordeaux"
+                >
+                  Editar
+                </Link>
+                <ExcluirBotao perfumeId={p.id} nome={p.nome} />
+              </div>
             </div>
           ))}
         </div>
