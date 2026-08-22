@@ -6,10 +6,15 @@ import { ExcluirBotao } from "./excluir-botao";
 export default async function PerfumesPage() {
   const supabase = await createClient();
 
-  const { data: perfumes } = await supabase
-    .from("perfumes")
-    .select("id, nome, foto_url, variacoes (id, volume_ml, modo_venda, sku, preco_venda)")
-    .order("nome");
+  const [{ data: perfumes }, { data: estoqueView }] = await Promise.all([
+    supabase
+      .from("perfumes")
+      .select("id, nome, foto_url, variacoes (id, volume_ml, modo_venda, sku, preco_venda)")
+      .order("nome"),
+    supabase.from("vw_estoque_variacao_disponivel").select("sku, estoque_disponivel"),
+  ]);
+
+  const estoquePorSku = new Map((estoqueView ?? []).map((e) => [e.sku, e.estoque_disponivel]));
 
   return (
     <div className="mx-auto max-w-4xl px-8 py-10">
@@ -47,6 +52,7 @@ export default async function PerfumesPage() {
                       <th className="pb-1 font-normal">Modo</th>
                       <th className="pb-1 font-normal">SKU</th>
                       <th className="pb-1 font-normal">Preço</th>
+                      <th className="pb-1 font-normal">Estoque</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -59,6 +65,17 @@ export default async function PerfumesPage() {
                         <td className="py-1 font-mono text-xs break-all">{v.sku}</td>
                         <td className="py-1 tabular-nums">
                           {v.preco_venda ? `R$ ${v.preco_venda}` : "—"}
+                        </td>
+                        <td className="py-1 tabular-nums">
+                          {(() => {
+                            const estoque = estoquePorSku.get(v.sku);
+                            if (estoque === undefined || estoque === null) return "—";
+                            return (
+                              <span className={estoque > 0 ? "text-olive" : "text-bordeaux"}>
+                                {estoque}
+                              </span>
+                            );
+                          })()}
                         </td>
                       </tr>
                     ))}
