@@ -48,22 +48,22 @@ export default async function PerfumesPage() {
                 <table className="w-full text-sm">
                   <thead>
                     <tr className="text-left text-ink/50">
-                      <th className="pb-1 font-normal">Tamanho</th>
-                      <th className="pb-1 font-normal">Modo</th>
-                      <th className="pb-1 font-normal">SKU</th>
-                      <th className="pb-1 font-normal">Preço</th>
+                      <th className="pb-1 pr-3 font-normal">Tamanho</th>
+                      <th className="pb-1 pr-3 font-normal">Modo</th>
+                      <th className="pb-1 pr-3 font-normal">SKU</th>
+                      <th className="pb-1 pr-3 font-normal">Preço</th>
                       <th className="pb-1 font-normal">Estoque</th>
                     </tr>
                   </thead>
                   <tbody>
                     {p.variacoes.map((v) => (
                       <tr key={v.id} className="border-t border-ink/10">
-                        <td className="py-1 tabular-nums">{v.volume_ml}ml</td>
-                        <td className="py-1">
-                          {v.modo_venda === "fracionado" ? "Fracionado" : "Inteiro"}
+                        <td className="py-1 pr-3 tabular-nums">{v.volume_ml}ml</td>
+                        <td className="py-1 pr-3">
+                          {v.modo_venda === "fracionado" ? "DEC" : "CX"}
                         </td>
-                        <td className="py-1 font-mono text-xs break-all">{v.sku}</td>
-                        <td className="py-1 tabular-nums">
+                        <td className="py-1 pr-3 font-mono text-xs break-all">{v.sku}</td>
+                        <td className="py-1 pr-3 tabular-nums">
                           {v.preco_venda ? `R$ ${v.preco_venda}` : "—"}
                         </td>
                         <td className="py-1 tabular-nums">
